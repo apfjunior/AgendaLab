@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	template="/templates/modelo.xhtml">
+
+	<ui:define name="titulo">Relatório de Agendamentos Confirmados</ui:define>
+	<ui:define name="conteudo">
+
+		<h1>Relatório de Agendamentos Confirmados</h1>
+
+		<p:messages autoUpdate="true" closable="true" />
+		<h:outputScript library="js" name="scripts.js" />
+
+		<p:outputLabel value="Instruções básicas: " />
+		<p>
+			1) Para emissão do Relatório de Agendamentos Confirmados, baste informar a data
+			inicial e a data final respectivamente, e em seguida clicar no botão
+			<p:button icon="ui-icon-print" value="Emitir" readonly="true" />
+			logo abaixo.
+		</p>
+		<p>
+			Em caso de erro,<b> aperte F5</b> do teclado para recarregar a página
+			e tente novamente.
+		</p>
+
+		<h:form id="formListagem">
+
+			<p:toolbar style="margin-top: 20px">
+				<p:toolbarGroup align="left">
+					<p:commandButton icon="ui-icon-print" value="Emitir"
+						action="#{agendamentoBean.imprimirRelatorioP}" />
+				</p:toolbarGroup>
+			</p:toolbar>
+			<p:panelGrid columns="2" id="painel"
+				style="width: 100%; margin-top: 20px" columnClasses="rotulo, campo">
+				<p:outputLabel value="Data de Realização" />
+				<h:panelGroup>
+					<p:calendar
+						value="#{agendamentoBean.agendamento.inicioDataHoraAgendamento}"
+						label="Data Inicial" pattern="dd/MM/yyyy" size="10"  locale="pt"  />
+					<p:spacer width="12" />
+					<h:outputText value="a" />
+					<p:spacer width="12" />
+					<p:calendar
+						value="#{agendamentoBean.agendamento.fimDataHoraAgendamento}"
+						label="Data Final" pattern="dd/MM/yyyy" size="10"  locale="pt"  />
+				</h:panelGroup>
+			</p:panelGrid>
+		</h:form>
+	</ui:define>
+</ui:composition>
+

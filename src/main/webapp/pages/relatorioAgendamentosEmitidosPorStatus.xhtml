@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	template="/templates/modelo.xhtml">
+
+	<ui:define name="titulo">Relatório de Agendamentos</ui:define>
+	<ui:define name="conteudo">
+
+		<h1>Relatório de Agendamentos</h1>
+
+		<p:messages autoUpdate="true" closable="true" />
+
+		<p:outputLabel value="Instruções básicas: " />
+		<p>
+			1) Para emissão sem filtragem, bastar clicar no botão
+			<p:button icon="ui-icon-print" value="Emitir" readonly="true" />
+			e todas a informações da tabela abaixo serão agregadas no relatório.
+		</p>
+		<p>
+			2) Para emissão pela filtragem por <u>Laboratório</u>, é <b>obrigatório</b>
+			escolher o STATUS do agendamento. Em caso de erro,<b> aperte F5</b>
+			do teclado para recarregar a página.
+		</p>
+		<p>
+			3) Para emissão pela filtragem por <u>Status</u>, basta selecionar o
+			respectivo STATUS e clicar no botão
+			<p:button icon="ui-icon-print" value="Emitir" readonly="true" />
+			.
+		</p>
+
+		<h:form id="formListagem">
+
+			<p:toolbar style="margin-top: 20px">
+				<p:toolbarGroup align="left">
+					<p:commandButton icon="ui-icon-print" value="Emitir"
+						action="#{agendamentoBean.imprimirRelatorio}" />
+				</p:toolbarGroup>
+			</p:toolbar>
+			<br />
+			<p:dataTable id="tabela" widgetVar="tabela"
+				sortBy="#{agendamento.id}"
+				emptyMessage="Nenhum registro encontrado." paginator="true"
+				paginatorPosition="bottom" value="#{agendamentoBean.listAgenda}"
+				var="agendamento" rows="10">
+
+				<p:column headerText="ID" style="text-align: center" width="30"
+					sortBy="#{agendamento.id}">
+					<h:outputText value="#{agendamento.id}" />
+				</p:column>
+
+				<p:column sortBy="#{agendamento.laboratorio.nome}"
+					filterBy="#{agendamento.laboratorio.nome}"
+					headerText="Filtrar Laboratorio">
+					<h:outputText value="#{agendamento.laboratorio.nome}" />
+				</p:column>
+
+				<p:column sortBy="#{agendamento.inicioDataHoraAgendamento}"
+					headerText="Início da aula" style="text-align: center" width="95">
+					<h:outputText value="#{agendamento.inicioDataHoraAgendamento}">
+						<f:convertDateTime pattern="dd/MM/yyy HH:mm"
+							timeZone="America/Boa_Vista" />
+					</h:outputText>
+				</p:column>
+
+				<p:column sortBy="#{agendamento.fimDataHoraAgendamento}"
+					headerText="Fim da aula" style="text-align: center" width="95">
+
+					<h:outputText value="#{agendamento.fimDataHoraAgendamento}">
+						<f:convertDateTime pattern="dd/MM/yyy HH:mm"
+							timeZone="America/Boa_Vista" />
+					</h:outputText>
+				</p:column>
+
+				<p:column sortBy="#{agendamento.usuario.pessoa.nome}"
+					headerText="Solicitante">
+					<h:outputText value="#{agendamento.usuario.pessoa.nome}" />
+				</p:column>
+
+				<p:column sortBy="#{agendamento.compoCurricular.nome}"
+					headerText="Disciplina">
+					<h:outputText value="#{agendamento.compoCurricular.nome}" />
+				</p:column>
+
+				<p:column sortBy="#{agendamento.compoCurricular.turma.curso.nome}"
+					width="100" headerText="Curso">
+					<h:outputText
+						value="#{agendamento.compoCurricular.turma.curso.nome}" />
+				</p:column>
+
+				<p:column sortBy="#{agendamento.compoCurricular.turma.codEstatico}"
+					headerText="Turma" width="75">
+					<h:outputText
+						value="#{agendamento.compoCurricular.turma.codEstatico}" />
+				</p:column>
+
+				<p:column sortBy="#{agendamento.statusConclusaoo}" width="230"
+					style="text-align: center" headerText="Filtrar por Status"
+					filterBy="#{agendamento.statusConclusaoo}">
+					<h:outputText value="#{agendamento.statusConclusaoo}"
+						rendered="#{agendamento.statusConclusaoo eq 'INICIAL'}"
+						style="color: #0080FF" />
+					<h:outputText value="#{agendamento.statusConclusaoo}"
+						rendered="#{agendamento.statusConclusaoo eq 'CONFIRMADO'}"
+						style="color: #006600" />
+					<h:outputText value="#{agendamento.statusConclusaoo}"
+						rendered="#{agendamento.statusConclusaoo eq 'REJEITADO'}"
+						style="color: #FE2E2E" />
+					<f:facet name="filter">
+						<p:selectOneButton onchange="PF('tabela').filter()">
+							<f:selectItem itemValue="INICIAL" itemLabel="Inicial" />
+							<f:selectItem itemValue="CONFIRMADO" itemLabel="Confirm." />
+							<f:selectItem itemValue="REJEITADO" itemLabel="Rejeit." />
+						</p:selectOneButton>
+					</f:facet>
+				</p:column>
+
+				<p:column sortBy="#{agendamento.dataDeRealizacao}"
+					headerText="Realizado em" style="text-align: center" width="95">
+					<h:outputText value="#{agendamento.dataDeRealizacao}">
+						<f:convertDateTime pattern="dd/MM/yyy HH:mm"
+							timeZone="America/Boa_Vista" />
+					</h:outputText>
+				</p:column>
+			</p:dataTable>
+		</h:form>
+	</ui:define>
+</ui:composition>
+

@@ -1,0 +1,323 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.3.0.final using JasperReports Library version 6.3.0  -->
+<!-- 2016-07-18T02:21:03 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="relatorio_ficha_em_branco" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isIgnorePagination="true" uuid="494dce31-e2fa-42dc-addc-b2174b0c3692">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="AgendaLab Data Adapter "/>
+	<parameter name="CAMINHO_LOGO" class="java.lang.String" isForPrompting="false"/>
+	<queryString>
+		<![CDATA[SELECT public.agendamento.id,
+	public.agendamento.dataderealizacao AS data_realizacao,
+	public.agendamento.fimdatahoraagendamento AS fim_aula,
+	public.agendamento.iniciodatahoraagendamento AS inicio_aula,
+	public.usuario.login AS login_solicitante,
+	public.laboratorio.nome AS lab_nome,
+	public.componente_curricular.nome AS disciplina_nome,
+	public.turma.codestatico AS cod_turma,
+	public.curso.nome AS curso_nome,
+	public.agendamento.statusconclusaoo AS status,
+	public.agendamento.atividadeprogramadas,
+	public.agendamento.ativo,
+	public.agendamento.materialaula,
+	public.agendamento.observacoes,
+	public.agendamento.objetivogeral,
+	public.agendamento.quantalunos,
+	public.agendamento.tipo,
+	public.perfil.nome AS perfil_nome
+FROM public.agendamento
+	INNER JOIN public.usuario ON 
+	 public.agendamento.usuario_id = public.usuario.id 
+	INNER JOIN public.laboratorio ON 
+	 public.agendamento.laboratorio_id = public.laboratorio.id 
+	INNER JOIN public.componente_curricular ON 
+	 public.agendamento.compocurricular_id = public.componente_curricular.id 
+	INNER JOIN public.turma ON 
+	 public.componente_curricular.turma_id = public.turma.id 
+	INNER JOIN public.curso ON 
+	 public.turma.curso_id = public.curso.id 
+	INNER JOIN public.perfil ON 
+	 public.usuario.perfil_id = public.perfil.id]]>
+	</queryString>
+	<field name="id" class="java.lang.Integer"/>
+	<field name="data_realizacao" class="java.sql.Timestamp"/>
+	<field name="fim_aula" class="java.sql.Timestamp"/>
+	<field name="inicio_aula" class="java.sql.Timestamp"/>
+	<field name="login_solicitante" class="java.lang.String"/>
+	<field name="lab_nome" class="java.lang.String"/>
+	<field name="disciplina_nome" class="java.lang.String"/>
+	<field name="cod_turma" class="java.lang.String"/>
+	<field name="curso_nome" class="java.lang.String"/>
+	<field name="status" class="java.lang.String"/>
+	<field name="atividadeprogramadas" class="java.lang.String"/>
+	<field name="ativo" class="java.lang.Boolean"/>
+	<field name="materialaula" class="java.lang.String"/>
+	<field name="observacoes" class="java.lang.String"/>
+	<field name="objetivogeral" class="java.lang.String"/>
+	<field name="quantalunos" class="java.lang.String"/>
+	<field name="tipo" class="java.lang.String"/>
+	<field name="perfil_nome" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="90" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="36" width="550" height="50" uuid="4b5265d1-151d-4e8e-baf0-5d86e7e95441"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[MINISTÉRIO DA EDUCAÇÃO
+SECRETARIA DE EDUCAÇÃO PROFISSIONAL E TECNOLÓGICA
+INSTITUTO FEDERAL DE EDUCAÇÃO, CIÊNCIA E TECNOLOGIA DE RORAIMA
+CAMPUS BOA VISTA]]></text>
+			</staticText>
+			<image>
+				<reportElement x="258" y="-6" width="42" height="40" uuid="4aa856d0-75c8-418f-8d05-226117b2b0aa">
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+				</reportElement>
+				<imageExpression><![CDATA[$P{CAMINHO_LOGO}]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="29" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="9" width="550" height="20" uuid="ebdfcdba-e6c5-45a2-bbab-ab5e331cf467"/>
+				<textElement textAlignment="Center">
+					<font isBold="false" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[FICHA DE REGISTRO DE ATIVIDADES PRÁTICAS]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="683" splitType="Stretch">
+			<staticText>
+				<reportElement x="30" y="26" width="60" height="15" uuid="259c9a92-a5a6-4c73-8135-18a354b17c87"/>
+				<text><![CDATA[Solicitante:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="30" y="44" width="70" height="15" uuid="31036551-e570-49b3-9221-0d2f24bd50de">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+				</reportElement>
+				<text><![CDATA[Propriedade:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="250" y="26" width="130" height="15" uuid="62f16476-fc99-4dd7-b0ea-b469f512ad12">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+				</reportElement>
+				<text><![CDATA[Componente Curricular:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="250" y="63" width="38" height="15" uuid="c2a8f2ba-6f45-4945-8d44-7f256a34c80f">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+				</reportElement>
+				<text><![CDATA[Turma:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="250" y="44" width="38" height="15" uuid="fe539453-db86-489d-a3b0-7c9f533d9782">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<text><![CDATA[Curso:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="30" y="63" width="40" height="15" uuid="0c57084d-dee9-4412-a494-0ff02d6e6e7f">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Início:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="30" y="78" width="30" height="15" uuid="ce48164d-ac9c-46c9-bd5b-7c44e33d20b8">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fim:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="30" y="0" width="507" height="19" uuid="c991e68c-41b8-4dcf-b229-86929865b8e5">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<text><![CDATA[_____________________________________________________________________________________________________]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="" mode="Transparent" x="30" y="113" width="507" height="20" uuid="864fcb01-4f53-4cb1-a0d4-026144d5bb67">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+					<paragraph firstLineIndent="8"/>
+				</textElement>
+				<text><![CDATA[Programa de Atividades]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="30" y="183" width="507" height="20" uuid="e054574a-25b5-4c15-9b08-8e0e394570fb">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+					<paragraph firstLineIndent="8"/>
+				</textElement>
+				<text><![CDATA[Objetivo Geral]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="250" y="78" width="71" height="15" uuid="55e6caab-0ca0-4749-87b2-de1c436c0b25">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+				</reportElement>
+				<text><![CDATA[N° de alunos:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="30" y="253" width="507" height="20" uuid="d682520f-5d01-4c76-945b-644ed6d6abd8">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+					<paragraph firstLineIndent="8" leftIndent="0" rightIndent="0"/>
+				</textElement>
+				<text><![CDATA[Local da Atividade]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="30" y="321" width="507" height="20" uuid="7f8c7f43-e9ac-4b2c-ac41-48c79e9ab277">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+					<paragraph firstLineIndent="8"/>
+				</textElement>
+				<text><![CDATA[Especificações dos Materiais]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="30" y="443" width="507" height="20" uuid="eb4c3b75-6756-4b2f-9eb4-0d55c9def992">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+					<paragraph firstLineIndent="8"/>
+				</textElement>
+				<text><![CDATA[Observações]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="30" y="499" width="507" height="19" uuid="859e7edb-3dda-4597-b095-fcfa04f02e1f">
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<text><![CDATA[_____________________________________________________________________________________________________]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="342" y="521" width="78" height="15" uuid="f23f48d5-ce78-41cd-ad65-ab4b7825144e">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+				</reportElement>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[Solicitado em:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="30" y="521" width="44" height="15" uuid="3d689893-6ce0-4706-9646-f3bc2324863d">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+				</reportElement>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[Status:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="26" y="615" width="138" height="15" uuid="189e7540-1d52-4faf-b288-0b9ff0d9fce7">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Assinatura do Professor(a)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="25" y="596" width="140" height="19" uuid="ff440d2b-0308-4142-9066-db9dca471be7"/>
+				<text><![CDATA[______________________________________________________________________________________________________]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="205" y="615" width="138" height="15" uuid="572dd347-6ea7-4a8e-af12-e6056c6a8c67">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Técnico de Laboratório]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="202" y="596" width="140" height="19" uuid="81513067-1db9-466e-93e9-c670daa0ef24">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+				</reportElement>
+				<text><![CDATA[______________________________________________________________________________________________________]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="384" y="615" width="138" height="15" uuid="bc54fdd3-8b22-4a26-9221-0d9c1f677c19">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Visto da Coordenação]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="383" y="596" width="140" height="19" uuid="2df38fae-91d3-42d6-8b0b-130abe127953">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+				</reportElement>
+				<text><![CDATA[______________________________________________________________________________________________________]]></text>
+			</staticText>
+			<break>
+				<reportElement x="0" y="682" width="550" height="1" uuid="4844a5d1-6d5f-4504-a38d-1481dc194d49"/>
+			</break>
+			<staticText>
+				<reportElement x="342" y="536" width="98" height="15" uuid="995d584d-567d-44de-997f-ccbf028f1233">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[Confirmado em:]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+</jasperReport>

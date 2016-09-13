@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.3.0.final using JasperReports Library version 6.3.0  -->
+<!-- 2016-07-24T13:39:42 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="relatorio_agendamentos" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="e1455e29-b95f-4cd1-ad3d-e2591d0eef48">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="AgendaLab Data Adapter "/>
+	<parameter name="STATUS" class="java.lang.String"/>
+	<parameter name="LAB_AGENDAMENTO" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT public.agendamento.id,
+	public.agendamento.dataderealizacao AS data_realizacao,
+	public.agendamento.fimdatahoraagendamento AS fim_aula,
+	public.agendamento.iniciodatahoraagendamento AS inicio_aula,
+	public.usuario.login AS login_solicitante,
+	public.laboratorio.nome AS lab_nome,
+	public.componente_curricular.nome AS disciplina_nome,
+	public.turma.codestatico AS cod_turma,
+	public.curso.nome AS curso_nome,
+	public.agendamento.statusconclusaoo AS status
+FROM public.agendamento
+	INNER JOIN public.usuario ON 
+	 public.agendamento.usuario_id = public.usuario.id 
+	INNER JOIN public.laboratorio ON 
+	 public.agendamento.laboratorio_id = public.laboratorio.id 
+	INNER JOIN public.componente_curricular ON 
+	 public.agendamento.compocurricular_id = public.componente_curricular.id 
+	INNER JOIN public.turma ON 
+	 public.componente_curricular.turma_id = public.turma.id 
+	INNER JOIN public.curso ON 
+	 public.turma.curso_id = public.curso.id 
+WHERE 
+	 public.laboratorio.nome LIKE $P{LAB_AGENDAMENTO} 
+	 AND public.agendamento.statusconclusaoo = $P{STATUS} 
+ORDER BY public.agendamento.dataderealizacao ASC]]>
+	</queryString>
+	<field name="id" class="java.lang.Integer"/>
+	<field name="data_realizacao" class="java.sql.Timestamp"/>
+	<field name="fim_aula" class="java.sql.Timestamp"/>
+	<field name="inicio_aula" class="java.sql.Timestamp"/>
+	<field name="login_solicitante" class="java.lang.String"/>
+	<field name="lab_nome" class="java.lang.String"/>
+	<field name="disciplina_nome" class="java.lang.String"/>
+	<field name="cod_turma" class="java.lang.String"/>
+	<field name="curso_nome" class="java.lang.String"/>
+	<field name="status" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="80" splitType="Stretch">
+			<staticText>
+				<reportElement x="51" y="20" width="689" height="40" uuid="414a6230-9514-4560-bbc5-1c7bbb70cd2c"/>
+				<textElement textAlignment="Center">
+					<font size="26"/>
+				</textElement>
+				<text><![CDATA[Relatório de Agendamentos Confirmados]]></text>
+			</staticText>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="21" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="20" height="20" uuid="189046b0-afb2-4509-bfb1-34bc8e4d7565"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[ID]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="620" y="0" width="80" height="20" uuid="cc6c269a-386c-469e-a2ff-8b212ce7758a"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Status]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="20" y="0" width="120" height="20" uuid="56654770-7e8c-4a8b-99f1-746a4ee0c1f3"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Laboratório]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="150" y="0" width="70" height="20" uuid="45347a18-3cc9-46f5-8e77-1741b1777f40">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Left">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Início]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="230" y="0" width="70" height="20" uuid="d2bd9d39-625f-443a-9a99-b737dec6dec7">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Left">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fim]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="310" y="0" width="80" height="20" uuid="d69da6d2-028a-4bd5-80c9-924ace0681b8"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Solicitante]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="390" y="0" width="100" height="20" uuid="22900e1c-75ef-4907-b245-4374dbff45aa"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Disciplina]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="490" y="0" width="80" height="20" uuid="a669e274-0ca0-4265-a56b-66bb503d453e"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Curso]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="570" y="-1" width="50" height="20" uuid="e1fb60f3-fed7-4956-bbd5-161bbf0587f5"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Turma]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="700" y="-1" width="80" height="20" uuid="c58d9784-3333-4144-8ac6-affdeb91806b">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Left">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Realizado em]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="29" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="-1" width="20" height="30" uuid="b43c1c9a-7373-459c-84cf-ad029002f637"/>
+				<textFieldExpression><![CDATA[$F{id}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="620" y="-2" width="80" height="30" uuid="056c2cd4-3785-4ee0-a696-add924b039f7"/>
+				<textFieldExpression><![CDATA[$F{status}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="20" y="-1" width="120" height="30" uuid="b5adcbb0-9910-4d59-a49f-49945238b3dc"/>
+				<textFieldExpression><![CDATA[$F{lab_nome}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyy HH:mm">
+				<reportElement x="150" y="-1" width="70" height="30" uuid="06a5f8f7-ea0d-4743-9144-41ee382530e6">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Left"/>
+				<textFieldExpression><![CDATA[$F{inicio_aula}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyy HH:mm">
+				<reportElement x="230" y="-2" width="70" height="30" uuid="fe3b283d-fbe1-4d00-8de4-492416d0c9bd">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Left">
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{fim_aula}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="310" y="-2" width="80" height="30" uuid="5dfa37d9-24a6-4543-b9d5-5bf3f9533efc"/>
+				<textFieldExpression><![CDATA[$F{login_solicitante}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="390" y="-2" width="100" height="30" uuid="a50f62f5-445c-446d-b84a-f7d30ec2b97b"/>
+				<textFieldExpression><![CDATA[$F{disciplina_nome}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="490" y="-2" width="80" height="30" uuid="47b8b6d7-8831-404b-989d-e66aa8c4a4ce"/>
+				<textFieldExpression><![CDATA[$F{curso_nome}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="570" y="-2" width="50" height="30" uuid="78618d20-80f0-45e1-821b-a73f8ca3cc06"/>
+				<textFieldExpression><![CDATA[$F{cod_turma}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyy HH:mm">
+				<reportElement x="700" y="-2" width="70" height="30" uuid="a9448759-9f87-425c-b9b4-839f445739ac">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Left">
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{data_realizacao}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="50" splitType="Stretch">
+			<textField>
+				<reportElement x="670" y="20" width="100" height="30" uuid="d82e05a9-1db1-4cb2-8570-1c834d4533c7"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Página " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+</jasperReport>

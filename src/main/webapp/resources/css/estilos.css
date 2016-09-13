@@ -1,0 +1,75 @@
+@CHARSET "UTF-8";
+
+a.aprovado {
+	background: #006600;
+}
+
+a.rejeitado {
+	background: #FE2E2E;
+}
+
+a.inicial {
+	background: #0080FF;
+}
+
+body {
+	font-size: 12px;
+	font-family: Arial, Helvetica, sans-serif;
+	margin: 0px;
+	font-weight: normal;
+}
+
+header {
+	padding: 5px 0px;
+	margin-bottom: 20px;
+	height: 30px;
+	background-color: #545454;
+	color: #fff;
+	box-shadow: 0px 2px 2px #ccc;
+}
+
+/*Menu sistema inicio*/
+.menu-sistema {
+	border: 0px !important;
+	padding: 0px !important;
+	background: none !important;
+}
+
+.menu-sistema .ui-menu-parent>a .ui-menuitem-text, .menu-sistema>.ui-menu-list>.ui-menuitem>a>.ui-menuitem
+	{
+	color: #ffffff !important;
+}
+
+#conteudo {
+	padding: 8px;
+}
+
+header>div {
+	margin-left: 8px;
+}
+
+.ajax-status {
+	position: fixed;
+	top: 55px;
+	right: 10px;
+	width: 35px;
+	height: 35px;
+}
+
+footer {
+	padding: 0px 8px;
+	margin-bottom: 10px;
+}
+
+.ui-panelgrid td {
+	height: 28px;
+}
+
+.rotulo {
+	width: 225px;
+}
+
+.ui-selectmanycheckbox td label {
+	padding-right: 10px;
+}
+

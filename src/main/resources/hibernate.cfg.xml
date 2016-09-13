@@ -1,0 +1,49 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+
+	<session-factory>
+
+		<!-- Database connection settings -->
+		<property name="connection.driver_class">org.postgresql.Driver</property>
+		<property name="connection.url">jdbc:postgresql://localhost/agenda_lab</property>
+		<property name="connection.username">postgres</property>
+		<property name="connection.password">qwe123</property>
+
+		<!-- JDBC connection pool (use the built-in) -->
+		<property name="connection.pool_size">1</property>
+
+		<!-- SQL dialect -->
+		<property name="dialect">org.hibernate.dialect.PostgreSQL82Dialect</property>
+
+		<!-- Enable Hibernate's automatic session context management -->
+		<property name="current_session_context_class">thread</property>
+
+		<!-- Disable the second-level cache -->
+		<property name="cache.provider_class">org.hibernate.cache.internal.NoCacheProvider</property>
+
+		<!-- Echo all executed SQL to stdout -->
+		<property name="show_sql">true</property>
+
+		<!--criar as tabelas do banco de dados create/validete/update + -->
+		<property name="hbm2ddl.auto">validate</property>
+		
+		<!-- Mapeamento das entidades -->
+		<mapping class="br.com.tcc2.agendalab.model.Agendamento"/>
+		<mapping class="br.com.tcc2.agendalab.model.ComponenteCurricular"/>
+		<mapping class="br.com.tcc2.agendalab.model.Curso"/>
+		<mapping class="br.com.tcc2.agendalab.model.Docente"/>
+		<mapping class="br.com.tcc2.agendalab.model.Laboratorio"/>
+		<mapping class="br.com.tcc2.agendalab.model.Pessoa"/>
+		<mapping class="br.com.tcc2.agendalab.model.Tecnico"/>
+		<mapping class="br.com.tcc2.agendalab.model.Turma"/>
+		<mapping class="br.com.tcc2.agendalab.model.Perfil"/>
+		<mapping class="br.com.tcc2.agendalab.model.Usuario"/>
+
+	</session-factory>
+
+</hibernate-configuration>
+

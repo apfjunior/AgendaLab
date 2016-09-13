@@ -1,0 +1,332 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	template="/templates/modelo.xhtml">
+
+	<ui:define name="titulo">Gestão de Agendamentos</ui:define>
+	<ui:define name="conteudo">
+
+		<h:outputScript library="js" name="scripts.js" />
+		<p:growl id="mensagem" showDetail="true" />
+
+		<h1>Gestão de Agendamentos</h1>
+
+		<p:outputLabel value="Instruções básicas: " />
+
+		<p>
+			1) Para checagem ou atualização dos dados do agendamento, basta
+			clicar no botão
+			<p:button icon="ui-icon-check" readonly="true" />
+			da coluna <b>Opções</b>.
+		</p>
+		<p>
+			2) Para emissão da Ficha de Registro de Atividades correspondente ao
+			agendamento, basta clicar no botão
+			<p:button icon="ui-icon-print" readonly="true" />
+			da coluna <b>Opções</b>.
+		</p>
+		<p>
+			3) Para emissão da Ficha de Registro de Atividades <u>EM BRANCO</u>,
+			basta clicar no botão
+			<p:button icon="ui-icon-document" value="Ficha em branco"
+				readonly="true" />
+			logo abaixo.
+		</p>
+
+		<h:form id="formListagem">
+
+			<p:toolbar style="margin-top: 20px">
+				<p:toolbarGroup align="left">
+					<p:button icon="ui-icon-calendar" value="Solicitar agendamento"
+						outcome="agendamento" />
+				</p:toolbarGroup>
+				<p:toolbarGroup align="right">
+					<p:commandButton icon="ui-icon-document" value="Ficha em branco"
+						action="#{agendamentoBean.imprimirFichaEmBranco}" />
+				</p:toolbarGroup>
+			</p:toolbar>
+			<br />
+
+			<p:dataTable widgetVar="tabela" sortBy="#{agendamento.id}"
+				sortOrder="descending" id="tabela"
+				emptyMessage="Nenhum registro encontrado." paginator="true"
+				paginatorPosition="bottom" value="#{agendamentoBean.listAgenda}"
+				var="agendamento" rows="10">
+
+				<p:column id="id" headerText="ID" style="text-align: center"
+					width="30" sortBy="#{agendamento.id}">
+					<h:outputText value="#{agendamento.id}" />
+				</p:column>
+
+				<p:column sortBy="#{agendamento.laboratorio.nome}"
+					headerText="Laboratorio">
+					<h:outputText value="#{agendamento.laboratorio.nome}" />
+				</p:column>
+
+
+				<p:column sortBy="#{agendamento.inicioDataHoraAgendamento}"
+					headerText="Início da aula" style="text-align: center" width="95">
+					<h:outputText value="#{agendamento.inicioDataHoraAgendamento}">
+						<f:convertDateTime pattern="dd/MM/yyy HH:mm"
+							timeZone="America/Boa_Vista" />
+					</h:outputText>
+				</p:column>
+
+				<p:column sortBy="#{agendamento.fimDataHoraAgendamento}"
+					headerText="Fim da aula" style="text-align: center" width="95">
+
+					<h:outputText value="#{agendamento.fimDataHoraAgendamento}">
+						<f:convertDateTime pattern="dd/MM/yyy HH:mm"
+							timeZone="America/Boa_Vista" />
+					</h:outputText>
+				</p:column>
+
+				<p:column sortBy="#{agendamento.usuario.pessoa.nome}"
+					headerText="Solicitante">
+					<h:outputText value="#{agendamento.usuario.pessoa.nome}" />
+				</p:column>
+
+				<p:column sortBy="#{agendamento.compoCurricular.nome}"
+					headerText="Disciplina">
+					<h:outputText value="#{agendamento.compoCurricular.nome}" />
+				</p:column>
+
+				<p:column sortBy="#{agendamento.compoCurricular.turma.curso.nome}"
+					width="100" headerText="Curso">
+					<h:outputText
+						value="#{agendamento.compoCurricular.turma.curso.nome}" />
+				</p:column>
+
+				<p:column sortBy="#{agendamento.compoCurricular.turma.codEstatico}"
+					headerText="Turma" width="75">
+					<h:outputText
+						value="#{agendamento.compoCurricular.turma.codEstatico}" />
+				</p:column>
+
+				<p:column sortBy="#{agendamento.statusConclusaoo}" width="300"
+					style="text-align: center" headerText="Filtrar por Status"
+					filterBy="#{agendamento.statusConclusaoo}">
+					<h:outputText value="#{agendamento.statusConclusaoo}"
+						rendered="#{agendamento.statusConclusaoo eq 'INICIAL'}"
+						style="color: #0080FF" />
+					<h:outputText value="#{agendamento.statusConclusaoo}"
+						rendered="#{agendamento.statusConclusaoo eq 'CONFIRMADO'}"
+						style="color: #006600" />
+					<h:outputText value="#{agendamento.statusConclusaoo}"
+						rendered="#{agendamento.statusConclusaoo eq 'REJEITADO'}"
+						style="color: #FE2E2E" />
+					<f:facet name="filter">
+						<p:selectOneButton onchange="PF('tabela').filter()">
+							<f:selectItem itemValue="" itemLabel="Todos" />
+							<f:selectItem itemValue="INICIAL" itemLabel="Inicial" />
+							<f:selectItem itemValue="CONFIRMADO" itemLabel="Confirm." />
+							<f:selectItem itemValue="REJEITADO" itemLabel="Rejeit." />
+						</p:selectOneButton>
+					</f:facet>
+				</p:column>
+
+				<!--opcoes-->
+				<p:column headerText="Opções"
+					style="width: 75px; text-align: center">
+
+					<p:commandButton icon="ui-icon-check" title="Checar"
+						actionListener="#{agendamentoBean.editar}"
+						oncomplete="PF('dialogo').show();"
+						update=":formAgendamento:abaTabela">
+						<f:attribute name="selecionado" value="#{agendamento}" />
+						<f:actionListener
+							type="org.omnifaces.eventlistener.ResetInputAjaxActionListener" />
+					</p:commandButton>
+
+					<p:commandButton icon="ui-icon-print" title="Imprimir Ficha"
+						actionListener="#{agendamentoBean.imprimirFicha}">
+						<f:attribute name="selecionado" value="#{agendamento}" />
+					</p:commandButton>
+
+				</p:column>
+			</p:dataTable>
+		</h:form>
+
+
+		<!-- Novo Dialogo -->
+		<p:dialog header="Agendamento" closable="true" draggable="true"
+			modal="true" resizable="false" widgetVar="dialogo">
+
+			<h:form id="formAgendamento">
+				<p:tabView dynamic="true" cache="true" id="abaTabela">
+					<p:tab title="Início">
+						<h:panelGrid columns="2" cellpadding="4">
+							<h:outputLabel for="dataAgendaInicio" value="Início da aula: *" />
+							<p:calendar id="dataAgendaInicio" locale="pt" navigator="true"
+								pattern="dd/MM/yyyy HH:mm"
+								value="#{agendamentoBean.agendamento.inicioDataHoraAgendamento}"
+								readonlyInput="true" />
+
+							<h:outputLabel for="dataAgendaFim" value="Fim da aula: *" />
+							<p:calendar id="dataAgendaFim" locale="pt" navigator="true"
+								value="#{agendamentoBean.agendamento.fimDataHoraAgendamento}"
+								pattern="dd/MM/yyyy HH:mm" readonlyInput="true" />
+
+							<h:outputLabel for="solicitante" value="Solicitante *" />
+							<p:selectOneMenu id="solicitante" required="true" disabled="true"
+								requiredMessage="Campo 'Solicitante' obrigatório"
+								value="#{agendamentoBean.agendamento.usuario}"
+								converter="omnifaces.SelectItemsConverter" filter="true">
+								<f:selectItem noSelectionOption="true"
+									itemLabel="Selecione o solicitante" />
+								<f:selectItems var="usuario" value="#{agendamentoBean.usuarios}"
+									itemValue="#{usuario}" itemLabel="#{usuario.pessoa.nome}" />
+							</p:selectOneMenu>
+
+							<h:outputLabel for="lab" value="Laboratório: *" />
+							<p:selectOneMenu id="lab" required="true"
+								requiredMessage="Campo 'Laboratório' é obrigatório"
+								value="#{agendamentoBean.agendamento.laboratorio}"
+								converter="omnifaces.SelectItemsConverter" filter="true">
+								<f:selectItem noSelectionOption="true"
+									itemLabel="Selecione o laboratório" />
+								<f:selectItems var="laboratorio"
+									value="#{agendamentoBean.laboratorios}"
+									itemValue="#{laboratorio}" itemLabel="#{laboratorio.nome}" />
+							</p:selectOneMenu>
+						</h:panelGrid>
+					</p:tab>
+
+					<p:tab title="Disciplina">
+						<h:panelGrid columns="2" cellpadding="4">
+
+							<h:outputLabel for="disciplina" value="Componente Curricular: *" />
+							<p:selectOneMenu id="disciplina" required="true" filter="true"
+								requiredMessage="Campo 'Componente Curricular' obrigatório"
+								converter="omnifaces.SelectItemsConverter"
+								value="#{agendamentoBean.agendamento.compoCurricular}">
+								<f:selectItem noSelectionOption="true"
+									itemLabel="Selecione o componente curricular" />
+								<f:selectItems value="#{agendamentoBean.disciplinas}"
+									var="disciplina" itemValue="#{disciplina}"
+									itemLabel="#{disciplina.nome}" />
+								<p:ajax listener="#{agendamentoBean.popular}"
+									update="turma curso" />
+							</p:selectOneMenu>
+
+							<h:outputLabel for="turma" value="Turma: " />
+							<p:inputText id="turma"
+								value="#{agendamentoBean.agendamento.compoCurricular.turma.codEstatico}"
+								readonly="true" />
+
+							<h:outputLabel for="curso" value="Curso: " />
+							<p:inputText id="curso"
+								value="#{agendamentoBean.agendamento.compoCurricular.turma.curso.nome}"
+								readonly="true" />
+
+							<p:outputLabel for="qntAlunos" value="Total de alunos: " />
+							<p:inputMask id="qntAlunos" maxlength="2" size="2"
+								value="#{agendamentoBean.agendamento.quantAlunos}" mask="99" />
+						</h:panelGrid>
+					</p:tab>
+
+					<p:tab title="Atividades">
+						<h:panelGrid columns="2" cellpadding="4">
+
+							<h:outputLabel for="atividades" value="Atividades Programadas: *" />
+							<p:inputText id="atividades" maxlength="140" size="45"
+								required="true"
+								requiredMessage="Campo 'Atividades Programadas' obrigatório"
+								value="#{agendamentoBean.agendamento.atividadeProgramadas}" />
+
+							<h:outputLabel for="objetivos" value="Objetivo Geral: *" />
+							<p:inputText id="objetivos" maxlength="140" size="45"
+								required="true" requiredMessage="Campo 'Objetivos' obrigatório"
+								value="#{agendamentoBean.agendamento.objetivoGeral}" />
+
+							<p:outputLabel for="tipo" value="Tipo: " />
+							<p:selectOneRadio id="tipo" required="true"
+								requiredMessage="Campo 'Tipo' obrigatório"
+								value="#{agendamentoBean.agendamento.tipo}">
+								<f:selectItem itemValue="Ensaio" itemLabel="Ensaio" />
+								<f:selectItem itemValue="Demonstracão" itemLabel="Demonstracão" />
+								<f:selectItem itemValue="Experiência" itemLabel="Experiência" />
+								<f:selectItem itemValue="VisitaTécnica"
+									itemLabel="Visita Técnica" />
+							</p:selectOneRadio>
+
+							<p:outputLabel for="materiais"
+								value="Especificacões dos Materias: " />
+							<h:panelGroup>
+								<p:inputTextarea id="materiais" required="true"
+									requiredMessage="Campo 'Especificacões de materiais' obrigatório"
+									value="#{agendamentoBean.agendamento.materialAula}" cols="45"
+									rows="4" autoResize="false" maxlength="250" counter="contador"
+									counterTemplate="Restam {0} caracteres "
+									completeMethod="#{agendamentoBean.completarTexto}" />
+								<br />
+								<div align="right">
+									<h:outputLabel id="contador" />
+								</div>
+								<br />
+							</h:panelGroup>
+
+							<p:outputLabel for="obs" value="Observacões: " />
+							<p:inputText id="obs" maxlength="140" size="45"
+								value="#{agendamentoBean.agendamento.observacoes}" />
+						</h:panelGrid>
+					</p:tab>
+
+					<p:tab title="Detalhes">
+						<h:panelGrid columns="2" cellpadding="4">
+
+							<p:outputLabel for="datar" value="Data/Hora da realização: " />
+							<p:inputText id="datar"
+								value="#{agendamentoBean.agendamento.dataDeRealizacao}"
+								readonly="true">
+								<f:convertDateTime locale="pt_BR" timeZone="America/Boa_Vista"
+									pattern="dd/MM/yyyy HH:mm" />
+							</p:inputText>
+
+							<p:outputLabel id="ativo" value="Ativo: " />
+							<p:selectBooleanCheckbox name="Ativo" required="true"
+								requiredMessage="Campo 'Ativo' obrigatório"
+								value="#{agendamentoBean.agendamento.ativo}" />
+
+							<p:outputLabel for="status" value="Status: " />
+							<p:selectOneMenu id="status"
+								value="#{agendamentoBean.agendamento.statusConclusaoo}"
+								converter="omnifaces.SelectItemsConverter">
+								<f:selectItem noSelectionOption="true" itemLabel="A verificar" />
+								<f:selectItems var="status"
+									value="#{agendamentoBean.statusConlusao}" />
+							</p:selectOneMenu>
+
+							<h:outputLabel for="dataConf" value="Data da confirmação:" />
+							<p:calendar id="dataConf" locale="pt" navigator="true"
+								value="#{agendamentoBean.agendamento.dataDeConfirmacao}"
+								pattern="dd/MM/yyyy" readonlyInput="false"/>
+
+							<h:outputLabel for="tec" value="Técnico Responsável *" />
+							<p:selectOneMenu id="tec"
+								value="#{agendamentoBean.agendamento.tecnico}"
+								converter="omnifaces.SelectItemsConverter" filter="true">
+								<f:selectItem noSelectionOption="true"
+									itemLabel="Aguardando técnico" />
+								<f:selectItems var="tec" value="#{agendamentoBean.tecnicos}"
+									itemValue="#{tec}" itemLabel="#{tec.nome}" />
+							</p:selectOneMenu>
+						</h:panelGrid>
+					</p:tab>
+				</p:tabView>
+				<br />
+				<p:commandButton value="Enviar solicitacão"
+					actionListener="#{agendamentoBean.salvar}"
+					update=":mensagem :formAgendamento:abaTabela" />
+			</h:form>
+		</p:dialog>
+
+	</ui:define>
+
+</ui:composition>
+

@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	template="/templates/modelo.xhtml">
+
+	<ui:define name="titulo">Área Laboratório</ui:define>
+	<ui:define name="conteudo">
+
+		<h1>Área Laboratório</h1>
+		<p:growl id="mensagem" />
+
+		<h:form id="formListagem">
+
+			<p:toolbar style="margin-top: 20px">
+				<p:toolbarGroup align="left">
+					<p:commandButton icon="ui-icon-plus" value="Novo"
+						actionListener="#{laboratorioBean.novo()}"
+						oncomplete="PF('dialogo').show();"
+						update="mensagem :formCadastro:painel">
+						<f:actionListener
+							type="org.omnifaces.eventlistener.ResetInputAjaxActionListener" />
+					</p:commandButton>
+				</p:toolbarGroup>
+			</p:toolbar>
+			<br />
+
+			<p:dataTable widgetVar="tabela" id="tabela"
+				emptyMessage="Nenhum registro encontrado." paginator="true"
+				paginatorPosition="bottom" value="#{laboratorioBean.labs}" var="lab"
+				rows="5">
+
+				<p:column headerText="ID" style="text-align: center" width="30"
+					sortBy="#{lab.id}">
+					<h:outputText value="#{lab.id}" />
+				</p:column>
+
+				<p:column headerText="Nome" sortBy="#{lab.nome}">
+					<h:outputText value="#{lab.nome}" />
+				</p:column>
+
+				<p:column headerText="Ativo" sortBy="#{lab.ativo}" width="200"
+					filterBy="#{lab.ativo}" style="text-align: center">
+					<h:selectBooleanCheckbox value="#{lab.ativo}" disabled="true" />
+					<f:facet name="filter">
+						<p:selectOneButton onchange="PF('tabela').filter()">
+							<f:selectItem itemValue="" itemLabel="Todos" />
+							<f:selectItem itemValue="true" itemLabel="Sim" />
+							<f:selectItem itemValue="false" itemLabel="Não" />
+						</p:selectOneButton>
+					</f:facet>
+				</p:column>
+
+				<p:column headerText="Opções" width="70">
+
+					<p:commandButton icon="ui-icon-pencil"
+						actionListener="#{laboratorioBean.editar}"
+						update=":mensagem :formCadastro:painel"
+						oncomplete="PF('dialogo').show();">
+						<f:attribute name="selecionado" value="#{lab}" />
+						<f:actionListener
+							type="org.omnifaces.eventlistener.ResetInputAjaxActionListener" />
+					</p:commandButton>
+
+					<p:commandButton icon="ui-icon-trash"
+						actionListener="#{laboratorioBean.excluir}"
+						update=":mensagem :formListagem:tabela">
+						<p:confirm header="Confirmação"
+							message="Deseja excluir o Laboratório?" icon="ui-icon-alert" />
+						<f:attribute name="selecionado" value="#{lab}" />
+					</p:commandButton>
+
+				</p:column>
+			</p:dataTable>
+			<p:confirmDialog global="true">
+				<p:commandButton value="Sim" type="button"
+					styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+				<p:commandButton value="Não" type="button"
+					styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+			</p:confirmDialog>
+		</h:form>
+
+		<p:dialog header="Novo laboratório" widgetVar="dialogo"
+			draggable="false" resizable="false" modal="true" closable="true">
+			<h:form id="formCadastro">
+				<h:panelGrid id="painel" columns="2">
+
+					<p:outputLabel for="nome" value="Nome:" />
+					<p:inputText id="nome" maxlength="50" size="30"
+						value="#{laboratorioBean.lab.nome}" required="true"
+						requiredMessage="O campo 'Nome' é obrigatório" />
+
+
+					<p:outputLabel value="Ativo:" />
+					<p:selectBooleanCheckbox name="Ativo"
+						value="#{laboratorioBean.lab.ativo}" />
+				</h:panelGrid>
+
+				<h:panelGrid columns="2">
+					<p:commandButton value="Salvar"
+						actionListener="#{laboratorioBean.salvar()}"
+						update=":mensagem :formCadastro:painel :formListagem:tabela" />
+					<p:commandButton value="Fechar" oncomplete="PF('dialogo').hide();" />
+				</h:panelGrid>
+			</h:form>
+		</p:dialog>
+	</ui:define>
+</ui:composition>
