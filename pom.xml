@@ -32,7 +32,6 @@
 	</build>
 
 	<!-- Repositórios -->
-
 	<repositories>
 		<repository>
 			<id>prime-repo</id>
@@ -144,7 +143,5 @@
 			<version>3.1.0</version>
 		</dependency>
 
-
 	</dependencies>
-
 </project>
