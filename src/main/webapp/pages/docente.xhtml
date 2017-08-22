@@ -132,7 +132,8 @@
 
 					<p:outputLabel for="telefone" value="Telefone:" />
 					<p:inputMask id="telefone" maxlength="13" size="13"
-						value="#{docenteBean.docente.telefone}" mask="(99)9999-9999" />
+						value="#{docenteBean.docente.telefone}" mask="(99)9999-9999"
+						required="true" />
 
 					<p:outputLabel value="Ativo:" />
 					<p:selectBooleanCheckbox name="Ativo"

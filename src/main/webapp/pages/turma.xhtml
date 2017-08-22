@@ -38,12 +38,12 @@
 					<h:outputText value="#{turma.id}" />
 				</p:column>
 
-				<p:column headerText="Código da turma" sortBy="#{turma.codEstatico}" >
+				<p:column headerText="Código da turma" sortBy="#{turma.codEstatico}" style="text-align: center" >
 					<h:outputText value="#{turma.codEstatico}" />
 				</p:column>
 
-				<p:column headerText="Curso" sortBy="#{turma.curso.nome}">
-					<h:outputText value="#{turma.curso.nome}" />
+				<p:column headerText="Curso" sortBy="#{turma.curso.nome}" style="text-align: center">
+					<h:outputText value="#{turma.curso.nome}"  />
 				</p:column>
 
 				<p:column headerText="Ativo" sortBy="#{turma.ativo}"

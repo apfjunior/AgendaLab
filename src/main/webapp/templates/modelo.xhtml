@@ -19,7 +19,8 @@
 	<p:ajaxStatus styleClass="ajax-status">
 
 		<f:facet name="start">
-			<h:graphicImage library="images" name="loading.gif" />
+			<h:graphicImage library="images" name="loading.gif"
+				outcome="/pages/docente" />
 		</f:facet>
 
 		<f:facet name="complete">
@@ -62,7 +63,8 @@
 						rendered="#{autenticacaoBean.temPermissoes(['Administrador','administrador', 'Tecnico','tecnico','Técnico','técnico'])}"
 						outcome="/pages/agendamentoAdministrador" />
 					<p:menuitem value="Gestão de Agendamentos"
-						outcome="/pages/gestaoAgendamento" />
+						outcome="/pages/gestaoAgendamento"
+						rendered="#{autenticacaoBean.temPermissoes(['Administrador','administrador', 'Tecnico','tecnico','Técnico','técnico'])}" />
 				</p:submenu>
 
 				<p:submenu label="Relatório"
