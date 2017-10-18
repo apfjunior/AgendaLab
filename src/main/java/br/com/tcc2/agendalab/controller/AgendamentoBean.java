@@ -422,7 +422,7 @@ public class AgendamentoBean implements Serializable {
 	}
 
 	// imprimir relatorio agendamentos;
-	public void imprimirRelatorio() {
+	public void imprimirRelatorio() throws IOException {
 
 		try {
 
@@ -452,7 +452,18 @@ public class AgendamentoBean implements Serializable {
 			Connection conexao = HibernateUtil.getConexao();
 
 			JasperPrint relatorio = JasperFillManager.fillReport(caminho, paramentros, conexao);
-			JasperPrintManager.printReport(relatorio, true);
+
+			/**
+			 * Metodo funciona local, mas nao fuinciona no servidor cloud.
+			 */
+			JasperExportManager.exportReportToPdfFile(relatorio, "Relatório.pdf");
+			java.awt.Desktop.getDesktop().open(new File("Relatório.pdf"));
+			Messages.addGlobalInfo("PDF gerado com sucesso! ");
+
+			/**
+			 * chama ctrol+p
+			 */
+			// JasperPrintManager.printReport(relatorio, true);
 
 		} catch (JRException erro) {
 
@@ -499,9 +510,18 @@ public class AgendamentoBean implements Serializable {
 				Connection conexao = HibernateUtil.getConexao();
 
 				JasperPrint relatorio = JasperFillManager.fillReport(caminho, paramentros, conexao);
+
+				/**
+				 * Metodo funciona local, mas nao fuinciona no servidor cloud.
+				 */
 				JasperExportManager.exportReportToPdfFile(relatorio, "Relatório_por_perído.pdf");
 				java.awt.Desktop.getDesktop().open(new File("Relatório_por_perído.pdf"));
 				Messages.addGlobalInfo("PDF gerado com sucesso! ");
+
+				/**
+				 * chama ctrol+p
+				 */
+				// JasperPrintManager.printReport(relatorio, true);
 			}
 
 		} catch (JRException erro) {
@@ -536,6 +556,11 @@ public class AgendamentoBean implements Serializable {
 
 			Messages.addGlobalInfo("PDF gerado com sucesso! ");
 
+			/**
+			 * chama ctrol+p
+			 */
+			// JasperPrintManager.printReport(relatorio, true);
+
 		} catch (JRException erro) {
 
 			Messages.addGlobalError("Erro: Falha na leitura dos filtros, tente novamente. ");
@@ -557,11 +582,19 @@ public class AgendamentoBean implements Serializable {
 			Connection conexao = HibernateUtil.getConexao();
 
 			JasperPrint relatorio = JasperFillManager.fillReport(caminho, paramentros, conexao);
+
+			/**
+			 * Metodo funciona local, mas nao fuinciona no servidor cloud.
+			 */
 			JasperExportManager.exportReportToPdfFile(relatorio, "Ficha_em_branco.pdf");
 			java.awt.Desktop.getDesktop().open(new File("Ficha_em_branco.pdf"));
-
 			Messages.addGlobalInfo("PDF gerado com sucesso! ");
-			
+
+			/**
+			 * chama ctrol+p
+			 */
+			// JasperPrintManager.printReport(relatorio, true);
+
 		} catch (JRException erro) {
 
 			Messages.addGlobalError("Erro: Falha na emissão da impressão em branco. Tente Novamente. ");

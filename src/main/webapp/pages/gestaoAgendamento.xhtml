@@ -43,11 +43,11 @@
 			<p:toolbar style="margin-top: 20px">
 				<p:toolbarGroup align="left">
 					<p:button icon="ui-icon-calendar" value="Solicitar agendamento"
-						outcome="agendamento" />
+						outcome="agendamentoAdministrador" />
 				</p:toolbarGroup>
 				<p:toolbarGroup align="right">
 					<p:commandButton icon="ui-icon-document" value="Ficha em branco"
-						action="#{agendamentoBean.imprimirFichaEmBranco}" />
+						actionListener="#{agendamentoBean.imprimirFichaEmBranco}" update="mensagem"/>
 				</p:toolbarGroup>
 			</p:toolbar>
 			<br />
@@ -144,7 +144,7 @@
 					</p:commandButton>
 
 					<p:commandButton icon="ui-icon-print" title="Imprimir Ficha"
-						actionListener="#{agendamentoBean.imprimirFicha}">
+						actionListener="#{agendamentoBean.imprimirFicha}" update="mensagem">
 						<f:attribute name="selecionado" value="#{agendamento}" />
 					</p:commandButton>
 
@@ -305,7 +305,7 @@
 							<h:outputLabel for="dataConf" value="Data da confirmação:" />
 							<p:calendar id="dataConf" locale="pt" navigator="true"
 								value="#{agendamentoBean.agendamento.dataDeConfirmacao}"
-								pattern="dd/MM/yyyy" readonlyInput="false"/>
+								pattern="dd/MM/yyyy" readonlyInput="false" />
 
 							<h:outputLabel for="tec" value="Técnico Responsável *" />
 							<p:selectOneMenu id="tec"
