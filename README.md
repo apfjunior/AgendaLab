@@ -11,10 +11,4 @@ Files and README: https://drive.google.com/drive/folders/0BwbX0lyDIr21SHpsNGgwdj
 
 # Testar o Sistema no servidor externo Amazon
 
-Amazon Server: http://52.15.184.171:8080/agendalab/
-
-user: user
-
-pwd: 123
-
-Obs: Como explicado no vídeo de apresentação do sistema, há uma limitação para exportação de relatórios em formato .PDF nessa primeira versão do projeto, contudo em servidores locais, essa função está 100% funcional.
+Amazon Server: http://52.15.184.171:8080/agendalab/ (OFF)
